@@ -1,5 +1,5 @@
 <!-- 
-  The Rooster Room 🐓 (Mobile Version)
+  The Rooster Room 🐓
   Developer: MarkChookyMark
   GitHub: https://markchookymark.github.io/theroosterroom/
   Date: 25/07/2025 
@@ -9,8 +9,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>The Rooster Room (Mobile)</title>
+  <title>The Rooster Room</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <style>
     body {
       margin: 0;
@@ -23,11 +23,14 @@
 
     /* Password Screen */
     #password-screen {
-      position: absolute; top: 0; left: 0;
+      position: absolute;
+      top: 0; left: 0;
       width: 100%; height: 100%;
       background: #ffcc00;
-      display: flex; flex-direction: column;
-      justify-content: center; align-items: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
       z-index: 5;
     }
     #password-screen input {
@@ -36,160 +39,551 @@
       margin-top: 10px;
     }
 
-    /* Instructions */
+    /* Instructions Screen */
     #instructions {
-      position: absolute; top: 50%; left: 50%;
+      position: absolute;
+      top: 50%; left: 50%;
       transform: translate(-50%, -50%);
-      font-size: 20px; color: white;
-      z-index: 3; display: none;
+      font-size: 20px;
+      color: white;
+      z-index: 3;
+      cursor: pointer;
       text-align: center;
+      display: none;
     }
 
     /* Crosshair */
     #crosshair {
-      position: absolute; top: 50%; left: 50%;
+      position: absolute;
+      top: 50%; left: 50%;
       transform: translate(-50%, -50%);
       width: 20px; height: 20px;
-      z-index: 2; display: none;
-      pointer-events: none;
+      z-index: 2; pointer-events: none;
+      display: none;
     }
     #crosshair:before, #crosshair:after {
-      content: ''; position: absolute;
-      background: #00FF00;
+      content: '';
+      position: absolute;
+      background: #00ff00;
     }
     #crosshair:before {
-      width: 2px; height: 20px; left: 9px; top: 0;
+      width: 2px; height: 20px;
+      left: 9px; top: 0;
     }
     #crosshair:after {
-      width: 20px; height: 2px; top: 9px; left: 0;
+      width: 20px; height: 2px;
+      top: 9px; left: 0;
     }
 
     /* Pause text */
     #pause-text {
-      position: absolute; top: 20%; width: 100%;
-      text-align: center; font-size: 30px;
-      color: red; display: none;
+      position: absolute;
+      top: 20%;
+      width: 100%;
+      text-align: center;
+      font-size: 36px;
+      color: red;
+      display: none;
       z-index: 4;
     }
 
     /* Controls info */
     #controls-info {
-      position: absolute; bottom: 20px; left: 20px;
-      font-size: 14px; color: white;
-      z-index: 4; display: none;
-    }
-
-    /* Touch controls */
-    #controls-mobile {
-      position: absolute; bottom: 10px; left: 10px;
-      display: flex; gap: 10px; z-index: 6;
-      align-items: center;
+      position: absolute;
+      bottom: 20px; left: 20px;
+      font-size: 16px;
+      color: white;
+      z-index: 4;
       display: none;
     }
-    .btn {
-      width: 60px; height: 60px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.2);
-      border: 2px solid white;
-      color: white; font-size: 18px;
-      display: flex; justify-content: center; align-items: center;
-      user-select: none;
-    }
-    #jump-btn, #shoot-btn {
-      position: absolute; bottom: 80px; right: 20px;
-      background: rgba(255, 255, 255, 0.2);
-      border: 2px solid white;
-      width: 60px; height: 60px;
-      border-radius: 50%; color: white;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 16px; user-select: none;
+
+    /* Mobile buttons */
+    #mobile-controls {
+      position: absolute;
+      bottom: 10px; left: 10px;
       display: none;
       z-index: 6;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .control-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+    .btn {
+      background: rgba(255,255,255,0.2);
+      border: 1px solid white;
+      color: white;
+      font-size: 18px;
+      padding: 15px;
+      border-radius: 8px;
+      user-select: none;
+    }
+    #shoot-btn, #jump-btn {
+      position: absolute;
+      bottom: 10px; right: 10px;
+      display: none;
+      background: rgba(255,255,255,0.3);
+    }
+    #jump-btn {
+      right: 100px;
     }
 
-    /* Credit */
+    /* Credits */
     #credit {
-      position: absolute; bottom: 10px; right: 10px;
-      font-size: 12px; color: white; opacity: 0.6;
+      position: absolute;
+      bottom: 10px; right: 10px;
+      font-size: 12px;
+      color: white; opacity: 0.6;
       z-index: 4;
     }
   </style>
 </head>
 <body>
-  <!-- Password screen -->
   <div id="password-screen">
-    <div>Enter password and hit 'Go' to start</div>
+    <div>Enter password and hit 'Go' to start the game</div>
     <input type="password" id="password-input" placeholder="Password" />
   </div>
 
-  <!-- Main UI -->
   <div id="instructions">Tap to enter rooster room</div>
   <div id="crosshair"></div>
   <div id="pause-text">pause? you can't pause life.</div>
-  <div id="controls-info">Tap & hold buttons to move/shoot</div>
+  <div id="controls-info">
+    W = Forwards<br>
+    S = Backwards<br>
+    A = Left<br>
+    D = Right<br>
+    Spacebar = Jump<br>
+    Left Mouse Button = Shoot<br>
+    ESC = Pause
+  </div>
+
+  <div id="mobile-controls">
+    <div class="control-row"><div class="btn" id="btn-up">▲</div></div>
+    <div class="control-row">
+      <div class="btn" id="btn-left">◀</div>
+      <div class="btn" id="btn-down">▼</div>
+      <div class="btn" id="btn-right">▶</div>
+    </div>
+  </div>
+  <div class="btn" id="jump-btn">Jump</div>
+  <div class="btn" id="shoot-btn">Shoot</div>
+
   <div id="credit">© 2025 The Rooster Room by MarkChookyMark</div>
 
-  <!-- Mobile controls -->
-  <div id="controls-mobile">
-    <div class="btn" data-key="KeyA">◀</div>
-    <div class="btn" data-key="KeyW">▲</div>
-    <div class="btn" data-key="KeyS">▼</div>
-    <div class="btn" data-key="KeyD">▶</div>
-  </div>
-  <div id="jump-btn">⤴</div>
-  <div id="shoot-btn">🔥</div>
-
-  <!-- Three.js -->
+  <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/three@0.138.0/build/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.138.0/examples/js/controls/PointerLockControls.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.138.0/examples/js/loaders/FontLoader.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.138.0/examples/js/geometries/TextGeometry.js"></script>
 
   <script>
-    /* ORIGINAL CODE BASED ON DESKTOP VERSION... 
-       (Same game logic, targets, sound, etc.)
-       Updates: Mobile controls trigger the same WASD, jump, shoot events.
-    */
+    let camera, scene, renderer, controls, textMesh, floorMesh, walls = [], raycaster;
+    let font;
+    let paused = false;
 
-    // .... [REUSE ALL EXISTING GAME LOGIC FROM YOUR DESKTOP VERSION HERE] ....
+    // Targets (roosters)
+    let roosterTexture, roosterTargets = [];
 
-    // Password enter fix for mobile "Go"
+    // Movement
+    const move = { forward: false, backward: false, left: false, right: false };
+    let canJump = true;
+    const velocity = new THREE.Vector3();
+    const direction = new THREE.Vector3();
+    const gravity = 10;
+    const floorHeight = 0;
+    const floorSize = 2500;
+
+    // Sounds
+    const explosionSound = new Audio("LaserGun.mp3");
+    const jumpSound = new Audio("JumpSound.mp3");
+    const footstepSound = new Audio("FootSteps.mp3");
+    const missShotSound = new Audio("MissShot.mp3");
+    explosionSound.volume = 0.6; jumpSound.volume = 0.6; footstepSound.volume = 0.4; missShotSound.volume = 0.5;
+    let footstepCooldown = false;
+
+    // UI elements
     const passwordScreen = document.getElementById("password-screen");
     const passwordInput = document.getElementById("password-input");
-    passwordInput.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") {
-        if (passwordInput.value === "markchooky") {
-          passwordScreen.style.display = "none";
-          document.getElementById("instructions").style.display = "block";
-          document.getElementById("controls-info").style.display = "block";
-          document.getElementById("controls-mobile").style.display = "flex";
-          document.getElementById("jump-btn").style.display = "flex";
-          document.getElementById("shoot-btn").style.display = "flex";
-          init();
-        } else {
-          alert("Incorrect password!");
-        }
-      }
-    });
+    const instructions = document.getElementById("instructions");
+    const crosshair = document.getElementById("crosshair");
+    const pauseText = document.getElementById("pause-text");
+    const controlsInfo = document.getElementById("controls-info");
+    const mobileControls = document.getElementById("mobile-controls");
+    const jumpBtn = document.getElementById("jump-btn");
+    const shootBtn = document.getElementById("shoot-btn");
 
-    // Mobile button listeners (simulate keyboard)
-    function simulateKey(key, isDown) {
-      const event = new KeyboardEvent(isDown ? "keydown" : "keyup", { code: key });
-      document.dispatchEvent(event);
+    // Password enter for mobile + desktop
+    function checkPassword() {
+      if (passwordInput.value === "markchooky") {
+        passwordScreen.style.display = "none";
+        instructions.style.display = "block";
+        controlsInfo.style.display = "block";
+        if (/Mobi|Android/i.test(navigator.userAgent)) {
+          mobileControls.style.display = "flex";
+          jumpBtn.style.display = "block";
+          shootBtn.style.display = "block";
+        }
+        init();
+      } else {
+        alert("Incorrect password!");
+      }
     }
 
-    document.querySelectorAll(".btn").forEach(btn => {
-      btn.addEventListener("touchstart", () => simulateKey(btn.dataset.key, true));
-      btn.addEventListener("touchend", () => simulateKey(btn.dataset.key, false));
+    passwordInput.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") checkPassword();
     });
 
-    document.getElementById("jump-btn").addEventListener("touchstart", () => simulateKey("Space", true));
-    document.getElementById("jump-btn").addEventListener("touchend", () => simulateKey("Space", false));
-
-    // Shoot button triggers "click"
-    document.getElementById("shoot-btn").addEventListener("touchstart", () => {
-      document.dispatchEvent(new MouseEvent("click"));
+    passwordInput.addEventListener("change", () => {
+      if (/Mobi|Android/i.test(navigator.userAgent)) checkPassword();
     });
+
+    function init() {
+      camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 4000);
+      camera.position.set(0, 5, 30);
+
+      scene = new THREE.Scene();
+      scene.background = new THREE.Color(0x000000);
+
+      const light = new THREE.HemisphereLight(0xffffff, 0x888888, 1.2);
+      scene.add(light);
+
+      // Floor
+      const floorGeometry = new THREE.PlaneGeometry(floorSize, floorSize);
+      const floorMaterial = new THREE.MeshStandardMaterial({ color: 0x343600 });
+      floorMesh = new THREE.Mesh(floorGeometry, floorMaterial);
+      floorMesh.rotation.x = -Math.PI / 2;
+      floorMesh.position.y = floorHeight;
+      scene.add(floorMesh);
+
+      // Walls
+      const wallHeight = 100;
+      const wallThickness = 10;
+      const wallMaterial = new THREE.MeshStandardMaterial({ color: 0x888888 });
+      const wallPositions = [
+        [0, wallHeight / 2, floorSize / 2],
+        [0, wallHeight / 2, -floorSize / 2],
+        [-floorSize / 2, wallHeight / 2, 0],
+        [floorSize / 2, wallHeight / 2, 0],
+      ];
+      wallPositions.forEach((pos, idx) => {
+        const wallGeo = idx < 2
+          ? new THREE.BoxGeometry(floorSize, wallHeight, wallThickness)
+          : new THREE.BoxGeometry(wallThickness, wallHeight, floorSize);
+        const wall = new THREE.Mesh(wallGeo, wallMaterial);
+        wall.position.set(...pos);
+        scene.add(wall);
+        walls.push(wall);
+      });
+
+      // Controls
+      controls = new THREE.PointerLockControls(camera, document.body);
+      instructions.addEventListener('click', () => controls.lock());
+
+      controls.addEventListener('lock', () => {
+        instructions.style.display = 'none';
+        crosshair.style.display = 'block';
+        paused = false;
+        pauseText.style.display = 'none';
+      });
+
+      controls.addEventListener('unlock', () => {
+        paused = true;
+        crosshair.style.display = 'none';
+        pauseText.style.display = 'block';
+        instructions.style.display = 'block';
+      });
+
+      // Toggle pause on ESC
+      document.addEventListener('keydown', (e) => {
+        if (e.code === "Escape") {
+          if (controls.isLocked) controls.unlock();
+          else controls.lock();
+        }
+      });
+
+      scene.add(controls.getObject());
+
+      // Movement keys
+      document.addEventListener('keydown', (e) => {
+        switch (e.code) {
+          case 'KeyW': move.forward = true; break;
+          case 'KeyS': move.backward = true; break;
+          case 'KeyA': move.left = true; break;
+          case 'KeyD': move.right = true; break;
+          case 'Space':
+            if (canJump) {
+              velocity.y += 50;
+              canJump = false;
+              jumpSound.currentTime = 0;
+              jumpSound.play();
+            }
+            break;
+        }
+      });
+
+      document.addEventListener('keyup', (e) => {
+        switch (e.code) {
+          case 'KeyW': move.forward = false; break;
+          case 'KeyS': move.backward = false; break;
+          case 'KeyA': move.left = false; break;
+          case 'KeyD': move.right = false; break;
+        }
+      });
+
+      // Mobile button listeners
+      document.getElementById("btn-up").ontouchstart = () => move.forward = true;
+      document.getElementById("btn-up").ontouchend = () => move.forward = false;
+      document.getElementById("btn-down").ontouchstart = () => move.backward = true;
+      document.getElementById("btn-down").ontouchend = () => move.backward = false;
+      document.getElementById("btn-left").ontouchstart = () => move.left = true;
+      document.getElementById("btn-left").ontouchend = () => move.left = false;
+      document.getElementById("btn-right").ontouchstart = () => move.right = true;
+      document.getElementById("btn-right").ontouchend = () => move.right = false;
+
+      jumpBtn.ontouchstart = () => {
+        if (canJump) {
+          velocity.y += 50;
+          canJump = false;
+          jumpSound.currentTime = 0;
+          jumpSound.play();
+        }
+      };
+
+      shootBtn.ontouchstart = () => onClick();
+
+      raycaster = new THREE.Raycaster();
+
+      // Load text & roosters
+      const fontLoader = new THREE.FontLoader();
+      fontLoader.load('https://threejs.org/examples/fonts/helvetiker_bold.typeface.json', (loadedFont) => {
+        font = loadedFont;
+        createText();
+      });
+
+      roosterTexture = new THREE.TextureLoader().load("chookGunitsmall.png", () => {
+        createRoosterTargets();
+      });
+
+      document.addEventListener('click', onClick, false);
+
+      renderer = new THREE.WebGLRenderer({ antialias: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      document.body.appendChild(renderer.domElement);
+
+      window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      });
+
+      animate();
+    }
+
+    function createText() {
+      const textGeometry = new THREE.TextGeometry('Want stress relief?\n KILL THEM CHOOKS!!!', {
+        font: font, size: 3, height: 1, curveSegments: 12,
+      });
+      textGeometry.center();
+      const textMaterial = new THREE.MeshStandardMaterial({ color: 0xff0000 });
+      textMesh = new THREE.Mesh(textGeometry, textMaterial);
+      textMesh.position.y = 5;
+      scene.add(textMesh);
+    }
+
+    function createRoosterTargets() {
+      for (let i = 0; i < 10; i++) {
+        const spriteMaterial = new THREE.SpriteMaterial({ map: roosterTexture });
+        const sprite = new THREE.Sprite(spriteMaterial);
+        sprite.scale.set(50, 50, 1);
+        sprite.position.set(
+          (Math.random() - 0.5) * (floorSize - 500),
+          20,
+          (Math.random() - 0.5) * (floorSize - 500)
+        );
+        scene.add(sprite);
+        roosterTargets.push(sprite);
+      }
+    }
+
+    function onClick() {
+      if (paused) return;
+      raycaster.setFromCamera({ x: 0, y: 0 }, camera);
+
+      if (textMesh && raycaster.intersectObject(textMesh).length > 0) {
+        explodeText();
+        return;
+      }
+
+      const roosterHit = raycaster.intersectObjects(roosterTargets);
+      if (roosterHit.length > 0) {
+        explodeRooster(roosterHit[0].object);
+        return;
+      }
+
+      missShotSound.currentTime = 0;
+      missShotSound.play();
+    }
+
+    function explodeText() {
+      explosionSound.currentTime = 0;
+      explosionSound.play();
+      const particles = createParticlesFromMesh(textMesh, 0xff0000, 10, 0.3);
+      scene.remove(textMesh);
+      textMesh = null;
+      setTimeout(() => {
+        scene.remove(particles);
+        disposeParticles(particles);
+        createText();
+      }, 2000);
+    }
+
+    function explodeRooster(rooster) {
+      explosionSound.currentTime = 0;
+      explosionSound.play();
+      const particles = createParticlesFromSprite(rooster, 0xffaa00, 15, 0.6);
+      scene.remove(rooster);
+      setTimeout(() => {
+        rooster.position.set(
+          (Math.random() - 0.5) * (floorSize - 200),
+          20,
+          (Math.random() - 0.5) * (floorSize - 200)
+        );
+        scene.add(rooster);
+      }, 2000);
+      setTimeout(() => {
+        scene.remove(particles);
+        disposeParticles(particles);
+      }, 1500);
+    }
+
+    function createParticlesFromMesh(mesh, color, step, size) {
+      const positionAttr = mesh.geometry.attributes.position;
+      const vertexCount = positionAttr.count;
+      const particleCount = Math.floor(vertexCount / step);
+
+      const positions = new Float32Array(particleCount * 3);
+      const velocities = new Float32Array(particleCount * 3);
+
+      let j = 0;
+      for (let i = 0; i < vertexCount; i += step) {
+        const vertex = new THREE.Vector3().fromBufferAttribute(positionAttr, i);
+        positions[j * 3] = mesh.position.x + vertex.x;
+        positions[j * 3 + 1] = mesh.position.y + vertex.y;
+        positions[j * 3 + 2] = mesh.position.z + vertex.z;
+
+        velocities[j * 3] = (Math.random() - 0.5) * 8;
+        velocities[j * 3 + 1] = (Math.random() - 0.5) * 8;
+        velocities[j * 3 + 2] = (Math.random() - 0.5) * 8;
+        j++;
+      }
+
+      const geometry = new THREE.BufferGeometry();
+      geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+      const material = new THREE.PointsMaterial({ color, size });
+      const particleSystem = new THREE.Points(geometry, material);
+      particleSystem.velocities = velocities;
+      scene.add(particleSystem);
+      return particleSystem;
+    }
+
+    function createParticlesFromSprite(sprite, color, count, size) {
+      const positions = new Float32Array(count * 3);
+      const velocities = new Float32Array(count * 3);
+
+      for (let i = 0; i < count; i++) {
+        positions[i * 3] = sprite.position.x;
+        positions[i * 3 + 1] = sprite.position.y;
+        positions[i * 3 + 2] = sprite.position.z;
+
+        velocities[i * 3] = (Math.random() - 0.5) * 10;
+        velocities[i * 3 + 1] = (Math.random() - 0.5) * 10;
+        velocities[i * 3 + 2] = (Math.random() - 0.5) * 10;
+      }
+
+      const geometry = new THREE.BufferGeometry();
+      geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+      const material = new THREE.PointsMaterial({ color, size });
+      const particleSystem = new THREE.Points(geometry, material);
+      particleSystem.velocities = velocities;
+      scene.add(particleSystem);
+      return particleSystem;
+    }
+
+    function disposeParticles(particles) {
+      particles.geometry.dispose();
+      particles.material.dispose();
+    }
+
+    function animate() {
+      requestAnimationFrame(animate);
+
+      if (controls && controls.isLocked) {
+        const delta = 0.08;
+        velocity.y -= gravity * delta;
+        controls.getObject().position.y += velocity.y * delta;
+
+        if (controls.getObject().position.y < floorHeight + 5) {
+          velocity.y = 0;
+          controls.getObject().position.y = floorHeight + 5;
+          canJump = true;
+        }
+
+        velocity.x -= velocity.x * 10.0 * delta;
+        velocity.z -= velocity.z * 10.0 * delta;
+
+        direction.z = Number(move.forward) - Number(move.backward);
+        direction.x = Number(move.right) - Number(move.left);
+        direction.normalize();
+
+        if ((move.forward || move.backward || move.left || move.right) && canJump) {
+          if (!footstepCooldown) {
+            const step = footstepSound.cloneNode();
+            step.volume = 0.4;
+            step.playbackRate = 0.9 + Math.random() * 0.2;
+            step.play();
+            footstepCooldown = true;
+            setTimeout(() => footstepCooldown = false, 250);
+          }
+        }
+
+        if (move.forward || move.backward) velocity.z -= direction.z * 200.0 * delta;
+        if (move.left || move.right) velocity.x -= direction.x * 200.0 * delta;
+
+        controls.moveRight(-velocity.x * delta);
+        controls.moveForward(-velocity.z * delta);
+
+        // Boundaries
+        const playerPos = controls.getObject().position;
+        const boundary = (floorSize / 2) - 5;
+        if (playerPos.x > boundary) playerPos.x = boundary;
+        if (playerPos.x < -boundary) playerPos.x = -boundary;
+        if (playerPos.z > boundary) playerPos.z = boundary;
+        if (playerPos.z < -boundary) playerPos.z = -boundary;
+      }
+
+      // Animate all active particle systems
+      scene.traverse((object) => {
+        if (object.isPoints && object.velocities) {
+          const positions = object.geometry.attributes.position.array;
+          const velocities = object.velocities;
+
+          for (let i = 0; i < positions.length; i += 3) {
+            positions[i] += velocities[i] * 0.1;
+            positions[i + 1] += velocities[i + 1] * 0.1;
+            positions[i + 2] += velocities[i + 2] * 0.1;
+
+            velocities[i] *= 0.98;
+            velocities[i + 1] *= 0.98;
+            velocities[i + 2] *= 0.98;
+          }
+          object.geometry.attributes.position.needsUpdate = true;
+        }
+      });
+
+      if (renderer) renderer.render(scene, camera);
+    }
   </script>
 </body>
 </html>
