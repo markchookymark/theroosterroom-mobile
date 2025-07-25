@@ -3,9 +3,8 @@
 A simple FPS-style web game built using Three.js. Players roam a 3D environment and aim to "eliminate" animated chickens for stress relief.
 
 ## Features
-- First-person controls (WASD, jump, shoot)
+- Mobile First-person controls
 - Interactive 3D text targets and chickens
-- Chickens move randomly for added challenge
 - Password-protected access
 
 ## Deployment
