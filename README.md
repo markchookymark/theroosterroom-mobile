@@ -8,18 +8,9 @@ A simple FPS-style web game built using Three.js. Players roam a 3D environment 
 - Chickens move randomly for added challenge
 - Password-protected access
 
-## Controls
-- **W**: Move forward  
-- **S**: Move backward  
-- **A**: Move left  
-- **D**: Move right  
-- **Spacebar**: Jump  
-- **Left Mouse Button**: Shoot  
-- **ESC**: Pause
-
 ## Deployment
 This game is hosted on GitHub Pages.  
-**Repository:** [https://github.com/markchookymark/theroosterroom](https://github.com/markchookymark)
+**Repository:** [https://github.com/markchookymark/theroosterroom-mobile](https://github.com/markchookymark)
 
 ## Author
 **MarkChookyMark**  
