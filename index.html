@@ -2,107 +2,358 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>The Rooster Room - Mobile Friendly</title>
+  <title>The Rooster Room</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
-    body { margin: 0; overflow: hidden; background: black; font-family: sans-serif; }
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: black;
+      font-family: sans-serif;
+      touch-action: none;
+    }
     canvas { display: block; }
 
     /* Password Screen */
     #password-screen {
-      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-      background: #ffcc00; display: flex; flex-direction: column;
-      justify-content: center; align-items: center; z-index: 5;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #ffcc00;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 5;
     }
-    #password-screen input { font-size: 18px; padding: 5px 10px; margin-top: 10px; }
+    #password-screen input {
+      font-size: 18px;
+      padding: 5px 10px;
+      margin-top: 10px;
+    }
 
     /* Instructions */
     #instructions {
-      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-      font-size: 20px; color: white; z-index: 3; cursor: pointer; text-align: center; display: none;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 20px;
+      color: white;
+      z-index: 3;
+      cursor: pointer;
+      text-align: center;
+      display: none;
     }
 
     /* Crosshair */
     #crosshair {
-      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-      width: 20px; height: 20px; z-index: 2; pointer-events: none; display: none;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 20px;
+      height: 20px;
+      z-index: 2;
+      pointer-events: none;
+      display: none;
     }
-    #crosshair:before, #crosshair:after {
-      content: ''; position: absolute; background: #00FF00;
+    #crosshair:before,
+    #crosshair:after {
+      content: '';
+      position: absolute;
+      background: #00FF00;
     }
-    #crosshair:before { width: 2px; height: 20px; left: 9px; top: 0; }
-    #crosshair:after { width: 20px; height: 2px; top: 9px; left: 0; }
+    #crosshair:before {
+      width: 2px;
+      height: 20px;
+      left: 9px;
+      top: 0;
+    }
+    #crosshair:after {
+      width: 20px;
+      height: 2px;
+      top: 9px;
+      left: 0;
+    }
 
-    /* Pause Text */
+    /* Pause text */
     #pause-text {
-      position: absolute; top: 20%; width: 100%; text-align: center; font-size: 36px; color: red;
-      display: none; z-index: 4;
+      position: absolute;
+      top: 20%;
+      width: 100%;
+      text-align: center;
+      font-size: 36px;
+      color: red;
+      display: none;
+      z-index: 4;
     }
 
-    /* Controls */
+    /* Controls info */
     #controls-info {
-      position: absolute; bottom: 20px; left: 20px; font-size: 16px; color: white; z-index: 4; display: none;
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      font-size: 14px;
+      color: white;
+      z-index: 4;
+      display: none;
     }
 
-    /* Mobile Controls */
+    /* Mobile buttons */
     #mobile-controls {
       display: none;
       position: absolute;
-      bottom: 20px;
+      bottom: 10px;
       width: 100%;
-      display: flex;
-      justify-content: space-between;
-      z-index: 6;
-      padding: 0 20px;
+      justify-content: center;
+      z-index: 5;
     }
-    .control-btn {
-      background: rgba(255,255,255,0.2);
-      border: 1px solid white;
+    .btn {
+      width: 50px;
+      height: 50px;
+      background: rgba(255,255,255,0.3);
+      border: 2px solid #00FF00;
       border-radius: 50%;
-      width: 60px; height: 60px;
-      text-align: center; line-height: 60px;
-      font-size: 20px; color: white;
+      margin: 5px;
+      text-align: center;
+      line-height: 50px;
+      color: #00FF00;
+      font-weight: bold;
       user-select: none;
     }
   </style>
 </head>
 <body>
+  <!-- Password Screen -->
   <div id="password-screen">
-    <div>Enter password and hit 'Enter' to start the game</div>
+    <div>Enter password and hit 'Enter' or 'Go' to start the game</div>
     <input type="password" id="password-input" placeholder="Password" />
   </div>
 
-  <div id="instructions">Tap to enter rooster room</div>
+  <!-- Instructions -->
+  <div id="instructions">Tap/Click to enter the rooster room</div>
   <div id="crosshair"></div>
-  <div id="pause-text">pause? you can't pause life.</div>
+  <div id="pause-text">Pause? You can't pause life.</div>
   <div id="controls-info">
-    W = Forwards<br>S = Backwards<br>A = Left<br>D = Right<br>Space = Jump<br>Tap = Shoot<br>ESC = Pause
+    W = Forwards<br>
+    S = Backwards<br>
+    A = Left<br>
+    D = Right<br>
+    Spacebar = Jump<br>
+    Tap/Click = Shoot<br>
+    ESC = Pause
   </div>
 
   <!-- Mobile Controls -->
   <div id="mobile-controls">
-    <div>
-      <div class="control-btn" id="btn-left">◀</div>
-      <div class="control-btn" id="btn-right">▶</div>
-    </div>
-    <div>
-      <div class="control-btn" id="btn-up">▲</div>
-      <div class="control-btn" id="btn-down">▼</div>
-    </div>
-    <div>
-      <div class="control-btn" id="btn-jump">⤒</div>
-    </div>
+    <div class="btn" id="btn-left">A</div>
+    <div class="btn" id="btn-up">W</div>
+    <div class="btn" id="btn-down">S</div>
+    <div class="btn" id="btn-right">D</div>
+    <div class="btn" id="btn-jump">⤒</div>
   </div>
 
+  <!-- Three.js scripts -->
   <script src="https://cdn.jsdelivr.net/npm/three@0.138.0/build/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.138.0/examples/js/controls/PointerLockControls.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.138.0/examples/js/loaders/FontLoader.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.138.0/examples/js/geometries/TextGeometry.js"></script>
 
   <script>
-    /* This is a trimmed version with same logic as desktop but adds mobile buttons */
-    // Full game logic as previous (camera, scene, chickens, etc.)
-    // + mobile controls toggled by checking screen width and using onTouchStart events
-    // Omitted in this downloadable version for brevity.
+    let camera, scene, renderer, controls, textMesh, floorMesh, walls = [], raycaster;
+    let font;
+    let paused = false;
+
+    let roosterTexture, roosterTargets = [];
+    const move = { forward: false, backward: false, left: false, right: false };
+    let canJump = true;
+    const velocity = new THREE.Vector3();
+    const direction = new THREE.Vector3();
+    const gravity = 10;
+    const floorHeight = 0;
+    const floorSize = 2500;
+
+    const passwordScreen = document.getElementById("password-screen");
+    const passwordInput = document.getElementById("password-input");
+    const instructions = document.getElementById("instructions");
+    const crosshair = document.getElementById("crosshair");
+    const pauseText = document.getElementById("pause-text");
+    const controlsInfo = document.getElementById("controls-info");
+    const mobileControls = document.getElementById("mobile-controls");
+
+    function startGame() {
+      if (passwordInput.value === "markchooky") {
+        passwordScreen.style.display = "none";
+        instructions.style.display = "block";
+        controlsInfo.style.display = "block";
+        if (/Mobi|Android/i.test(navigator.userAgent)) {
+          mobileControls.style.display = "flex";
+        }
+        init();
+      } else {
+        alert("Incorrect password!");
+      }
+    }
+
+    passwordInput.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") startGame();
+    });
+    passwordInput.addEventListener("change", () => startGame()); // mobile 'Go' fix
+
+    function init() {
+      camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 4000);
+      camera.position.set(0, 5, 30);
+
+      scene = new THREE.Scene();
+      scene.background = new THREE.Color(0x000000);
+
+      const light = new THREE.HemisphereLight(0xffffff, 0x888888, 1.2);
+      scene.add(light);
+
+      const floorGeometry = new THREE.PlaneGeometry(floorSize, floorSize);
+      const floorMaterial = new THREE.MeshStandardMaterial({ color: 0x343600 });
+      floorMesh = new THREE.Mesh(floorGeometry, floorMaterial);
+      floorMesh.rotation.x = -Math.PI / 2;
+      floorMesh.position.y = floorHeight;
+      scene.add(floorMesh);
+
+      const wallMaterial = new THREE.MeshStandardMaterial({ color: 0x888888 });
+      const wallHeight = 100, wallThickness = 10;
+      const wallPositions = [
+        [0, wallHeight / 2, floorSize / 2],
+        [0, wallHeight / 2, -floorSize / 2],
+        [-floorSize / 2, wallHeight / 2, 0],
+        [floorSize / 2, wallHeight / 2, 0]
+      ];
+      wallPositions.forEach((pos, idx) => {
+        const wallGeo = idx < 2 ? new THREE.BoxGeometry(floorSize, wallHeight, wallThickness)
+                                : new THREE.BoxGeometry(wallThickness, wallHeight, floorSize);
+        const wall = new THREE.Mesh(wallGeo, wallMaterial);
+        wall.position.set(...pos);
+        scene.add(wall);
+        walls.push(wall);
+      });
+
+      controls = new THREE.PointerLockControls(camera, document.body);
+      instructions.addEventListener('click', () => controls.lock());
+      controls.addEventListener('lock', () => {
+        instructions.style.display = 'none';
+        crosshair.style.display = 'block';
+        paused = false;
+        pauseText.style.display = 'none';
+      });
+      controls.addEventListener('unlock', () => {
+        paused = true;
+        crosshair.style.display = 'none';
+        pauseText.style.display = 'block';
+        instructions.style.display = 'block';
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.code === "Escape") {
+          if (controls.isLocked) controls.unlock();
+          else controls.lock();
+        }
+      });
+
+      scene.add(controls.getObject());
+
+      document.addEventListener('keydown', (e) => {
+        switch (e.code) {
+          case 'KeyW': move.forward = true; break;
+          case 'KeyS': move.backward = true; break;
+          case 'KeyA': move.left = true; break;
+          case 'KeyD': move.right = true; break;
+          case 'Space': if (canJump) { velocity.y += 50; canJump = false; } break;
+        }
+      });
+      document.addEventListener('keyup', (e) => {
+        switch (e.code) {
+          case 'KeyW': move.forward = false; break;
+          case 'KeyS': move.backward = false; break;
+          case 'KeyA': move.left = false; break;
+          case 'KeyD': move.right = false; break;
+        }
+      });
+
+      raycaster = new THREE.Raycaster();
+
+      const fontLoader = new THREE.FontLoader();
+      fontLoader.load('https://threejs.org/examples/fonts/helvetiker_bold.typeface.json', (loadedFont) => {
+        font = loadedFont;
+        const textGeometry = new THREE.TextGeometry('The Rooster Room!', {
+          font: font, size: 3, height: 1, curveSegments: 12
+        });
+        textGeometry.center();
+        const textMaterial = new THREE.MeshStandardMaterial({ color: 0xff0000 });
+        textMesh = new THREE.Mesh(textGeometry, textMaterial);
+        textMesh.position.y = 5;
+        scene.add(textMesh);
+      });
+
+      roosterTexture = new THREE.TextureLoader().load("chookGunitsmall.png", () => {
+        for (let i = 0; i < 10; i++) {
+          const spriteMaterial = new THREE.SpriteMaterial({ map: roosterTexture });
+          const sprite = new THREE.Sprite(spriteMaterial);
+          sprite.scale.set(50, 50, 1);
+          sprite.position.set(
+            (Math.random() - 0.5) * (floorSize - 500),
+            20,
+            (Math.random() - 0.5) * (floorSize - 500)
+          );
+          scene.add(sprite);
+          roosterTargets.push(sprite);
+        }
+      });
+
+      document.addEventListener('click', () => {
+        if (paused) return;
+        raycaster.setFromCamera({ x: 0, y: 0 }, camera);
+        if (textMesh && raycaster.intersectObject(textMesh).length > 0) {
+          scene.remove(textMesh);
+        }
+      });
+
+      renderer = new THREE.WebGLRenderer({ antialias: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      document.body.appendChild(renderer.domElement);
+
+      window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      });
+
+      animate();
+    }
+
+    function animate() {
+      requestAnimationFrame(animate);
+
+      if (controls && controls.isLocked) {
+        const delta = 0.08;
+        velocity.y -= gravity * delta;
+        controls.getObject().position.y += velocity.y * delta;
+        if (controls.getObject().position.y < floorHeight + 5) {
+          velocity.y = 0;
+          controls.getObject().position.y = floorHeight + 5;
+          canJump = true;
+        }
+        velocity.x -= velocity.x * 10.0 * delta;
+        velocity.z -= velocity.z * 10.0 * delta;
+        direction.z = Number(move.forward) - Number(move.backward);
+        direction.x = Number(move.right) - Number(move.left);
+        direction.normalize();
+        if (move.forward || move.backward) velocity.z -= direction.z * 200.0 * delta;
+        if (move.left || move.right) velocity.x -= direction.x * 200.0 * delta;
+        controls.moveRight(-velocity.x * delta);
+        controls.moveForward(-velocity.z * delta);
+      }
+      if (renderer) renderer.render(scene, camera);
+    }
   </script>
 </body>
 </html>
